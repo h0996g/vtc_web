@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_field.dart';
+import '../../../../../core/widgets/wilaya_commune_selector_widget.dart';
 import '../../cubit/driver_cubit.dart';
 import '../../cubit/driver_state.dart';
 import 'section_label_widget.dart';
@@ -25,9 +26,9 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
   final _passwordCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   final _addressCtrl = TextEditingController();
-  final _wilayaCtrl = TextEditingController();
-  final _communeCtrl = TextEditingController();
   final _vehicleModelCtrl = TextEditingController();
+  String? _wilaya;
+  String? _commune;
   final _vehicleYearCtrl = TextEditingController();
   final _vehiclePlateCtrl = TextEditingController();
 
@@ -42,8 +43,6 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
     _passwordCtrl.dispose();
     _phoneCtrl.dispose();
     _addressCtrl.dispose();
-    _wilayaCtrl.dispose();
-    _communeCtrl.dispose();
     _vehicleModelCtrl.dispose();
     _vehicleYearCtrl.dispose();
     _vehiclePlateCtrl.dispose();
@@ -63,8 +62,8 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
           vehicleYear: int.parse(_vehicleYearCtrl.text.trim()),
           vehiclePlate: _vehiclePlateCtrl.text.trim(),
           address: _addressCtrl.text.trim().isEmpty ? null : _addressCtrl.text.trim(),
-          wilaya: _wilayaCtrl.text.trim().isEmpty ? null : _wilayaCtrl.text.trim(),
-          commune: _communeCtrl.text.trim().isEmpty ? null : _communeCtrl.text.trim(),
+          wilaya: _wilaya,
+          commune: _commune,
         );
   }
 
@@ -76,12 +75,14 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
     _passwordCtrl.clear();
     _phoneCtrl.clear();
     _addressCtrl.clear();
-    _wilayaCtrl.clear();
-    _communeCtrl.clear();
     _vehicleModelCtrl.clear();
     _vehicleYearCtrl.clear();
     _vehiclePlateCtrl.clear();
-    setState(() => _vehicleType = 'CAR');
+    setState(() {
+      _wilaya = null;
+      _commune = null;
+      _vehicleType = 'CAR';
+    });
   }
 
   @override
@@ -157,22 +158,11 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
               validator: (v) => v == null || v.isEmpty ? 'Phone number is required' : null,
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'Wilaya (optional)',
-                    controller: _wilayaCtrl,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Commune (optional)',
-                    controller: _communeCtrl,
-                  ),
-                ),
-              ],
+            WilayaCommuneSelector(
+              initialWilaya: _wilaya,
+              initialCommune: _commune,
+              onWilayaChanged: (v) => setState(() => _wilaya = v),
+              onCommuneChanged: (v) => setState(() => _commune = v),
             ),
             const SizedBox(height: 16),
             AppTextField(

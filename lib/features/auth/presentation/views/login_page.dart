@@ -6,7 +6,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 import '../widgets/auth_card_widget.dart';
-import '../widgets/auth_logo_widget.dart';
 import '../widgets/login/login_form_widget.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,10 +23,7 @@ class LoginPage extends StatelessWidget {
           child: const Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(24),
-              child: AuthCardWidget(
-                maxWidth: 420,
-                child: _LoginContent(),
-              ),
+              child: AuthCardWidget(maxWidth: 420, child: _LoginContent()),
             ),
           ),
         ),
@@ -44,8 +40,6 @@ class _LoginContent extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AuthLogoWidget(),
-        SizedBox(height: 36),
         Text(
           'Welcome back',
           style: TextStyle(

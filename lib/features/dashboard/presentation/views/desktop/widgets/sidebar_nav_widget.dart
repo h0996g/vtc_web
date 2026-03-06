@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../../core/router/route_names.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/router/route_names.dart';
+import '../../../../../../core/theme/app_colors.dart';
 
 class SidebarNav extends StatelessWidget {
   const SidebarNav({super.key, required this.currentLocation});

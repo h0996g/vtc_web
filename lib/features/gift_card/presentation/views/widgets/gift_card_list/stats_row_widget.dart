@@ -12,21 +12,21 @@ class StatsRowWidget extends StatelessWidget {
     final used = giftCards.where((c) => c.isUsed).length;
     final available = total - used;
 
-    return Row(
+    return Wrap(
+      spacing: 16,
+      runSpacing: 16,
       children: [
         StatCardWidget(
           label: 'Total',
           value: '$total',
           icon: Icons.card_giftcard_outlined,
         ),
-        const SizedBox(width: 16),
         StatCardWidget(
           label: 'Available',
           value: '$available',
           icon: Icons.check_circle_outline,
           color: AppColors.success,
         ),
-        const SizedBox(width: 16),
         StatCardWidget(
           label: 'Used',
           value: '$used',

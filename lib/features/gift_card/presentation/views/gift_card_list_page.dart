@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/device_type.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/shimmer_loader.dart';
 import '../cubit/gift_card_cubit.dart';
@@ -26,39 +27,63 @@ class _GiftCardListPageState extends State<GiftCardListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = DeviceTypeQuery.isMobile(context);
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isMobile ? 16 : 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Gift Cards',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
+          if (isMobile) ...[
+            const Text(
+              'Gift Cards',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Manage promotional gift cards',
+              style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+            ),
+            const SizedBox(height: 16),
+            AppButton(
+              label: 'Create Gift Card',
+              onPressed: () => context.push(RouteNames.createGiftCard),
+              icon: Icons.add,
+              width: double.infinity,
+            ),
+          ] else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Gift Cards',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Manage promotional gift cards',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
-                  ),
-                ],
-              ),
-              AppButton(
-                label: 'Create Gift Card',
-                onPressed: () => context.push(RouteNames.createGiftCard),
-                icon: Icons.add,
-              ),
-            ],
-          ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Manage promotional gift cards',
+                      style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                    ),
+                  ],
+                ),
+                AppButton(
+                  label: 'Create Gift Card',
+                  onPressed: () => context.push(RouteNames.createGiftCard),
+                  icon: Icons.add,
+                ),
+              ],
+            ),
           const SizedBox(height: 32),
           BlocBuilder<GiftCardCubit, GiftCardState>(
             builder: (context, state) {

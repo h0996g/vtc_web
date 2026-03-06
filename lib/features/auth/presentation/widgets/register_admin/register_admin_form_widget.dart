@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/device_type.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../cubit/auth_cubit.dart';
@@ -55,6 +56,8 @@ class _RegisterAdminFormWidgetState extends State<RegisterAdminFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = DeviceTypeQuery.isMobile(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AdminRegistered) reset();
@@ -63,25 +66,38 @@ class _RegisterAdminFormWidgetState extends State<RegisterAdminFormWidget> {
         key: _formKey,
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'First Name',
-                    controller: _firstNameCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+            if (isMobile) ...[
+              AppTextField(
+                label: 'First Name',
+                controller: _firstNameCtrl,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+              const SizedBox(height: 16),
+              AppTextField(
+                label: 'Last Name',
+                controller: _lastNameCtrl,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      label: 'First Name',
+                      controller: _firstNameCtrl,
+                      validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Last Name',
-                    controller: _lastNameCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Last Name',
+                      controller: _lastNameCtrl,
+                      validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 16),
             AppTextField(
               label: 'Email',
@@ -122,25 +138,43 @@ class _RegisterAdminFormWidgetState extends State<RegisterAdminFormWidget> {
               prefixIcon: const Icon(Icons.phone_outlined, size: 20, color: AppColors.textSecondary),
             ),
             const SizedBox(height: 28),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                AppButton(
-                  label: 'Cancel',
-                  onPressed: () => context.pop(),
-                  isOutlined: true,
+            if (isMobile) ...[
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) => AppButton(
+                  label: 'Create Admin',
+                  onPressed: _submit,
+                  isLoading: state is AuthLoading,
+                  icon: Icons.person_add_outlined,
+                  width: double.infinity,
                 ),
-                const SizedBox(width: 12),
-                BlocBuilder<AuthCubit, AuthState>(
-                  builder: (context, state) => AppButton(
-                    label: 'Create Admin',
-                    onPressed: _submit,
-                    isLoading: state is AuthLoading,
-                    icon: Icons.person_add_outlined,
+              ),
+              const SizedBox(height: 12),
+              AppButton(
+                label: 'Cancel',
+                onPressed: () => context.pop(),
+                isOutlined: true,
+                width: double.infinity,
+              ),
+            ] else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppButton(
+                    label: 'Cancel',
+                    onPressed: () => context.pop(),
+                    isOutlined: true,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                  BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) => AppButton(
+                      label: 'Create Admin',
+                      onPressed: _submit,
+                      isLoading: state is AuthLoading,
+                      icon: Icons.person_add_outlined,
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

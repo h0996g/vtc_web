@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/responsive_widget.dart';
 import '../../../../../core/widgets/status_badge.dart';
 import '../../../domain/entities/gift_card_entity.dart';
+import 'gift_card_table_mobile_widget.dart';
 
 class GiftCardTable extends StatelessWidget {
   const GiftCardTable({super.key, required this.giftCards});
@@ -11,6 +13,13 @@ class GiftCardTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ResponsiveWidget(
+      mobile: GiftCardTableMobile(giftCards: giftCards),
+      desktop: _desktopTable(),
+    );
+  }
+
+  Widget _desktopTable() {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,

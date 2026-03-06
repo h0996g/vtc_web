@@ -4,10 +4,11 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/router/route_names.dart';
 import '../../../../core/storage/secure_storage_service.dart';
+import '../../../../core/utils/responsive_widget.dart';
 import '../../../../features/gift_card/presentation/cubit/gift_card_cubit.dart';
 import '../../../../features/wallet/presentation/cubit/wallet_cubit.dart';
-import 'widgets/sidebar_nav_widget.dart';
-import 'widgets/top_bar_widget.dart';
+import 'desktop/dashboard_shell_desktop.dart';
+import 'mobile/dashboard_shell_mobile.dart';
 
 class DashboardShell extends StatefulWidget {
   const DashboardShell({super.key, required this.child});
@@ -44,28 +45,25 @@ class _DashboardShellState extends State<DashboardShell> {
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
+    final title = _getPageTitle(location);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider<GiftCardCubit>(create: (_) => sl<GiftCardCubit>()),
         BlocProvider<WalletCubit>(create: (_) => sl<WalletCubit>()),
       ],
-      child: Scaffold(
-        body: Row(
-          children: [
-            SidebarNav(currentLocation: location),
-            Expanded(
-              child: Column(
-                children: [
-                  TopBar(
-                    adminName: _adminName,
-                    pageTitle: _getPageTitle(location),
-                  ),
-                  Expanded(child: widget.child),
-                ],
-              ),
-            ),
-          ],
+      child: ResponsiveWidget(
+        mobile: DashboardShellMobile(
+          adminName: _adminName,
+          pageTitle: title,
+          currentLocation: location,
+          child: widget.child,
+        ),
+        desktop: DashboardShellDesktop(
+          adminName: _adminName,
+          pageTitle: title,
+          currentLocation: location,
+          child: widget.child,
         ),
       ),
     );

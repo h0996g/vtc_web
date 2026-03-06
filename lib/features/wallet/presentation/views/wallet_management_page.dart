@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/device_type.dart';
 import '../cubit/wallet_cubit.dart';
 import '../cubit/wallet_state.dart';
 import 'widgets/wallet_operation_card_widget.dart';
@@ -52,7 +53,7 @@ class _WalletManagementPageState extends State<WalletManagementPage> {
         }
       },
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32),
+        padding: EdgeInsets.all(DeviceTypeQuery.isMobile(context) ? 16 : 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,11 +71,10 @@ class _WalletManagementPageState extends State<WalletManagementPage> {
               style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
             ),
             const SizedBox(height: 32),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: WalletOperationCardWidget(
+            if (DeviceTypeQuery.isMobile(context))
+              Column(
+                children: [
+                  WalletOperationCardWidget(
                     title: 'Credit Wallet',
                     subtitle: 'Add funds to a user account',
                     icon: Icons.add_circle_outline,
@@ -85,10 +85,8 @@ class _WalletManagementPageState extends State<WalletManagementPage> {
                     refCtrl: _creditRefCtrl,
                     isCredit: true,
                   ),
-                ),
-                const SizedBox(width: 24),
-                Expanded(
-                  child: WalletOperationCardWidget(
+                  const SizedBox(height: 16),
+                  WalletOperationCardWidget(
                     title: 'Debit Wallet',
                     subtitle: 'Remove funds from a user account',
                     icon: Icons.remove_circle_outline,
@@ -99,9 +97,41 @@ class _WalletManagementPageState extends State<WalletManagementPage> {
                     refCtrl: _debitRefCtrl,
                     isCredit: false,
                   ),
-                ),
-              ],
-            ),
+                ],
+              )
+            else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: WalletOperationCardWidget(
+                      title: 'Credit Wallet',
+                      subtitle: 'Add funds to a user account',
+                      icon: Icons.add_circle_outline,
+                      iconColor: AppColors.success,
+                      formKey: _creditFormKey,
+                      userCtrl: _creditUserCtrl,
+                      amountCtrl: _creditAmountCtrl,
+                      refCtrl: _creditRefCtrl,
+                      isCredit: true,
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    child: WalletOperationCardWidget(
+                      title: 'Debit Wallet',
+                      subtitle: 'Remove funds from a user account',
+                      icon: Icons.remove_circle_outline,
+                      iconColor: AppColors.error,
+                      formKey: _debitFormKey,
+                      userCtrl: _debitUserCtrl,
+                      amountCtrl: _debitAmountCtrl,
+                      refCtrl: _debitRefCtrl,
+                      isCredit: false,
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

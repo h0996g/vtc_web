@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/device_type.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../../core/widgets/wilaya_commune_selector_widget.dart';
@@ -87,6 +88,8 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = DeviceTypeQuery.isMobile(context);
+
     return BlocListener<DriverCubit, DriverState>(
       listener: (context, state) {
         if (state is DriverRegistered) _reset();
@@ -98,25 +101,38 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
           children: [
             const SectionLabelWidget('Personal Information'),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'First Name',
-                    controller: _firstNameCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+            if (isMobile) ...[
+              AppTextField(
+                label: 'First Name',
+                controller: _firstNameCtrl,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+              const SizedBox(height: 16),
+              AppTextField(
+                label: 'Last Name',
+                controller: _lastNameCtrl,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      label: 'First Name',
+                      controller: _firstNameCtrl,
+                      validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Last Name',
-                    controller: _lastNameCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Last Name',
+                      controller: _lastNameCtrl,
+                      validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 16),
             AppTextField(
               label: 'Email',
@@ -184,53 +200,90 @@ class _RegisterDriverFormWidgetState extends State<RegisterDriverFormWidget> {
               validator: (v) => v == null || v.isEmpty ? 'Model is required' : null,
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'Year',
-                    controller: _vehicleYearCtrl,
-                    keyboardType: TextInputType.number,
-                    validator: (v) {
-                      if (v == null || v.isEmpty) return 'Year is required';
-                      final year = int.tryParse(v);
-                      if (year == null || year < 1990 || year > 2030) {
-                        return 'Enter a valid year';
-                      }
-                      return null;
-                    },
+            if (isMobile) ...[
+              AppTextField(
+                label: 'Year',
+                controller: _vehicleYearCtrl,
+                keyboardType: TextInputType.number,
+                validator: (v) {
+                  if (v == null || v.isEmpty) return 'Year is required';
+                  final year = int.tryParse(v);
+                  if (year == null || year < 1990 || year > 2030) return 'Enter a valid year';
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              AppTextField(
+                label: 'Plate Number',
+                controller: _vehiclePlateCtrl,
+                validator: (v) => v == null || v.isEmpty ? 'Plate is required' : null,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Year',
+                      controller: _vehicleYearCtrl,
+                      keyboardType: TextInputType.number,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) return 'Year is required';
+                        final year = int.tryParse(v);
+                        if (year == null || year < 1990 || year > 2030) {
+                          return 'Enter a valid year';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Plate Number',
-                    controller: _vehiclePlateCtrl,
-                    validator: (v) => v == null || v.isEmpty ? 'Plate is required' : null,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Plate Number',
+                      controller: _vehiclePlateCtrl,
+                      validator: (v) => v == null || v.isEmpty ? 'Plate is required' : null,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                AppButton(
-                  label: 'Cancel',
-                  onPressed: () => context.pop(),
-                  isOutlined: true,
+            if (isMobile) ...[
+              BlocBuilder<DriverCubit, DriverState>(
+                builder: (context, state) => AppButton(
+                  label: 'Register Driver',
+                  onPressed: _submit,
+                  isLoading: state is DriverLoading,
+                  icon: Icons.directions_car_outlined,
+                  width: double.infinity,
                 ),
-                const SizedBox(width: 12),
-                BlocBuilder<DriverCubit, DriverState>(
-                  builder: (context, state) => AppButton(
-                    label: 'Register Driver',
-                    onPressed: _submit,
-                    isLoading: state is DriverLoading,
-                    icon: Icons.directions_car_outlined,
+              ),
+              const SizedBox(height: 12),
+              AppButton(
+                label: 'Cancel',
+                onPressed: () => context.pop(),
+                isOutlined: true,
+                width: double.infinity,
+              ),
+            ] else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppButton(
+                    label: 'Cancel',
+                    onPressed: () => context.pop(),
+                    isOutlined: true,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                  BlocBuilder<DriverCubit, DriverState>(
+                    builder: (context, state) => AppButton(
+                      label: 'Register Driver',
+                      onPressed: _submit,
+                      isLoading: state is DriverLoading,
+                      icon: Icons.directions_car_outlined,
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

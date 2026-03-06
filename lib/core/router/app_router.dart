@@ -41,32 +41,36 @@ class AppRouter {
         routes: [
           GoRoute(
             path: RouteNames.giftCards,
-            builder: (context, state) => const GiftCardListPage(),
+            pageBuilder: (context, state) => const NoTransitionPage(child: GiftCardListPage()),
           ),
           GoRoute(
             path: RouteNames.createGiftCard,
-            builder: (context, state) => const CreateGiftCardPage(),
+            pageBuilder: (context, state) => const NoTransitionPage(child: CreateGiftCardPage()),
           ),
           GoRoute(
             path: RouteNames.wallet,
-            builder: (context, state) => const WalletManagementPage(),
+            pageBuilder: (context, state) => const NoTransitionPage(child: WalletManagementPage()),
           ),
           GoRoute(
             path: RouteNames.createAdmin,
-            builder: (context, state) => const RegisterAdminPage(),
+            pageBuilder: (context, state) => const NoTransitionPage(child: RegisterAdminPage()),
           ),
           GoRoute(
             path: RouteNames.createDriver,
-            builder: (context, state) => BlocProvider(
-              create: (_) => DriverCubit(sl<AuthRemoteDataSource>()),
-              child: const RegisterDriverPage(),
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: BlocProvider(
+                create: (_) => DriverCubit(sl<AuthRemoteDataSource>()),
+                child: const RegisterDriverPage(),
+              ),
             ),
           ),
           GoRoute(
             path: RouteNames.profile,
-            builder: (context, state) => BlocProvider(
-              create: (_) => sl<ProfileCubit>(),
-              child: const ProfilePage(),
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: BlocProvider(
+                create: (_) => sl<ProfileCubit>(),
+                child: const ProfilePage(),
+              ),
             ),
           ),
         ],

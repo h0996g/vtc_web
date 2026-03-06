@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/utils/device_type.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_field.dart';
 import '../../../../auth/domain/entities/admin_entity.dart';
@@ -38,9 +39,11 @@ class ProfileFormCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = DeviceTypeQuery.isMobile(context);
+
     return Container(
       constraints: const BoxConstraints(maxWidth: 660),
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isMobile ? 20 : 32),
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
@@ -78,29 +81,44 @@ class ProfileFormCardWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'First Name',
-                    controller: firstNameCtrl,
-                    readOnly: !editing,
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Required' : null,
+            if (isMobile) ...[
+              AppTextField(
+                label: 'First Name',
+                controller: firstNameCtrl,
+                readOnly: !editing,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+              const SizedBox(height: 16),
+              AppTextField(
+                label: 'Last Name',
+                controller: lastNameCtrl,
+                readOnly: !editing,
+                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      label: 'First Name',
+                      controller: firstNameCtrl,
+                      readOnly: !editing,
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Last Name',
-                    controller: lastNameCtrl,
-                    readOnly: !editing,
-                    validator: (v) =>
-                        v == null || v.isEmpty ? 'Required' : null,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Last Name',
+                      controller: lastNameCtrl,
+                      readOnly: !editing,
+                      validator: (v) =>
+                          v == null || v.isEmpty ? 'Required' : null,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 16),
             AppTextField(
               label: 'Phone Number',
@@ -109,25 +127,38 @@ class ProfileFormCardWidget extends StatelessWidget {
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: AppTextField(
-                    label: 'Wilaya',
-                    controller: wilayaCtrl,
-                    readOnly: !editing,
+            if (isMobile) ...[
+              AppTextField(
+                label: 'Wilaya',
+                controller: wilayaCtrl,
+                readOnly: !editing,
+              ),
+              const SizedBox(height: 16),
+              AppTextField(
+                label: 'Commune',
+                controller: communeCtrl,
+                readOnly: !editing,
+              ),
+            ] else
+              Row(
+                children: [
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Wilaya',
+                      controller: wilayaCtrl,
+                      readOnly: !editing,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: AppTextField(
-                    label: 'Commune',
-                    controller: communeCtrl,
-                    readOnly: !editing,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: AppTextField(
+                      label: 'Commune',
+                      controller: communeCtrl,
+                      readOnly: !editing,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
             const SizedBox(height: 16),
             AppTextField(
               label: 'Address',

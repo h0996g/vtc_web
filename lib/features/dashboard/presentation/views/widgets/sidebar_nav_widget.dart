@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/router/route_names.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../../core/router/route_names.dart';
+import '../../../../../core/theme/app_colors.dart';
 
 class SidebarNav extends StatelessWidget {
   const SidebarNav({super.key, required this.currentLocation});
@@ -28,7 +28,11 @@ class SidebarNav extends StatelessWidget {
                     color: AppColors.secondary,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.directions_car, color: AppColors.primary, size: 20),
+                  child: const Icon(
+                    Icons.directions_car,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -124,7 +128,9 @@ class _NavItem extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.secondary.withValues(alpha: 0.12) : Colors.transparent,
+            color: isActive
+                ? AppColors.secondary.withValues(alpha: 0.12)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(

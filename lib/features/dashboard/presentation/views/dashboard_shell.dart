@@ -6,8 +6,8 @@ import '../../../../core/router/route_names.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../../../features/gift_card/presentation/cubit/gift_card_cubit.dart';
 import '../../../../features/wallet/presentation/cubit/wallet_cubit.dart';
-import '../widgets/sidebar_nav.dart';
-import '../widgets/top_bar.dart';
+import 'widgets/sidebar_nav_widget.dart';
+import 'widgets/top_bar_widget.dart';
 
 class DashboardShell extends StatefulWidget {
   const DashboardShell({super.key, required this.child});

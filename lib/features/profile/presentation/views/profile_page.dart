@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../core/widgets/app_text_field.dart';
 import '../../../auth/domain/entities/admin_entity.dart';
 import '../cubit/profile_cubit.dart';
 import '../cubit/profile_state.dart';
+import 'widgets/profile_avatar_card_widget.dart';
+import 'widgets/profile_error_card_widget.dart';
+import 'widgets/profile_form_card_widget.dart';
+import 'widgets/profile_shimmer_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -56,16 +58,14 @@ class _ProfilePageState extends State<ProfilePage> {
     context.read<ProfileCubit>().updateProfile(
       firstName: _firstNameCtrl.text.trim(),
       lastName: _lastNameCtrl.text.trim(),
-      phoneNumber: _phoneCtrl.text.trim().isEmpty
-          ? null
-          : _phoneCtrl.text.trim(),
-      address: _addressCtrl.text.trim().isEmpty
-          ? null
-          : _addressCtrl.text.trim(),
-      wilaya: _wilayaCtrl.text.trim().isEmpty ? null : _wilayaCtrl.text.trim(),
-      commune: _communeCtrl.text.trim().isEmpty
-          ? null
-          : _communeCtrl.text.trim(),
+      phoneNumber:
+          _phoneCtrl.text.trim().isEmpty ? null : _phoneCtrl.text.trim(),
+      address:
+          _addressCtrl.text.trim().isEmpty ? null : _addressCtrl.text.trim(),
+      wilaya:
+          _wilayaCtrl.text.trim().isEmpty ? null : _wilayaCtrl.text.trim(),
+      commune:
+          _communeCtrl.text.trim().isEmpty ? null : _communeCtrl.text.trim(),
     );
     setState(() => _editing = false);
   }
@@ -99,10 +99,10 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 32),
               if (state is ProfileLoading)
-                const Center(child: CircularProgressIndicator())
+                const ProfileShimmerWidget()
               else if (state is ProfileError)
-                _ErrorCard(
-                  message: (state).message,
+                ProfileErrorCardWidget(
+                  message: state.message,
                   onRetry: () => context.read<ProfileCubit>().loadProfile(),
                 )
               else
@@ -128,258 +128,27 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Avatar card
-        Container(
-          constraints: const BoxConstraints(maxWidth: 660),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: AppColors.cardBackground,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.accent),
-          ),
-          child: Row(
-            children: [
-              _Avatar(photoUrl: admin.photo, name: admin.fullName),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      admin.fullName.isEmpty ? admin.email : admin.fullName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      admin.email,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        admin.role,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.secondary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+        ProfileAvatarCardWidget(admin: admin),
         const SizedBox(height: 24),
-
-        // Edit form card
-        Container(
-          constraints: const BoxConstraints(maxWidth: 660),
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            color: AppColors.cardBackground,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.accent),
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Personal Information',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    if (!_editing)
-                      TextButton.icon(
-                        onPressed: () => setState(() => _editing = true),
-                        icon: const Icon(
-                          Icons.edit_outlined,
-                          size: 16,
-                          color: AppColors.secondary,
-                        ),
-                        label: const Text(
-                          'Edit',
-                          style: TextStyle(color: AppColors.secondary),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppTextField(
-                        label: 'First Name',
-                        controller: _firstNameCtrl,
-                        readOnly: !_editing,
-                        validator: (v) =>
-                            v == null || v.isEmpty ? 'Required' : null,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: AppTextField(
-                        label: 'Last Name',
-                        controller: _lastNameCtrl,
-                        readOnly: !_editing,
-                        validator: (v) =>
-                            v == null || v.isEmpty ? 'Required' : null,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                AppTextField(
-                  label: 'Phone Number',
-                  controller: _phoneCtrl,
-                  readOnly: !_editing,
-                  keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppTextField(
-                        label: 'Wilaya',
-                        controller: _wilayaCtrl,
-                        readOnly: !_editing,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: AppTextField(
-                        label: 'Commune',
-                        controller: _communeCtrl,
-                        readOnly: !_editing,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                AppTextField(
-                  label: 'Address',
-                  controller: _addressCtrl,
-                  readOnly: !_editing,
-                ),
-                if (_editing) ...[
-                  const SizedBox(height: 28),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      AppButton(
-                        label: 'Cancel',
-                        isOutlined: true,
-                        onPressed: () {
-                          _populate(admin);
-                          setState(() => _editing = false);
-                        },
-                      ),
-                      const SizedBox(width: 12),
-                      AppButton(
-                        label: 'Save Changes',
-                        onPressed: _submit,
-                        isLoading: isUpdating,
-                        icon: Icons.check_outlined,
-                      ),
-                    ],
-                  ),
-                ],
-              ],
-            ),
-          ),
+        ProfileFormCardWidget(
+          admin: admin,
+          formKey: _formKey,
+          firstNameCtrl: _firstNameCtrl,
+          lastNameCtrl: _lastNameCtrl,
+          phoneCtrl: _phoneCtrl,
+          addressCtrl: _addressCtrl,
+          wilayaCtrl: _wilayaCtrl,
+          communeCtrl: _communeCtrl,
+          editing: _editing,
+          isUpdating: isUpdating,
+          onEditTap: () => setState(() => _editing = true),
+          onCancel: () {
+            _populate(admin);
+            setState(() => _editing = false);
+          },
+          onSave: _submit,
         ),
       ],
-    );
-  }
-}
-
-class _Avatar extends StatelessWidget {
-  const _Avatar({required this.photoUrl, required this.name});
-  final String? photoUrl;
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 72,
-      height: 72,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.accent,
-        image: photoUrl != null
-            ? DecorationImage(image: NetworkImage(photoUrl!), fit: BoxFit.cover)
-            : null,
-      ),
-      child: photoUrl == null
-          ? Center(
-              child: Text(
-                name.isNotEmpty ? name[0].toUpperCase() : '?',
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.secondary,
-                ),
-              ),
-            )
-          : null,
-    );
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.message, required this.onRetry});
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 660),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.accent),
-      ),
-      child: Column(
-        children: [
-          const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 40),
-          const SizedBox(height: 12),
-          Text(
-            message,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 16),
-          AppButton(label: 'Retry', onPressed: onRetry),
-        ],
-      ),
     );
   }
 }

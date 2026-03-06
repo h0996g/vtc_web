@@ -12,7 +12,7 @@ class SidebarNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 240,
-      color: AppColors.dark,
+      color: AppColors.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -25,10 +25,10 @@ class SidebarNav extends StatelessWidget {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: AppColors.secondary,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.directions_car, color: Colors.white, size: 20),
+                  child: const Icon(Icons.directions_car, color: AppColors.primary, size: 20),
                 ),
                 const SizedBox(width: 12),
                 const Text(
@@ -89,7 +89,7 @@ class SidebarNav extends StatelessWidget {
               'VTC Dashboard v1.0',
               style: const TextStyle(
                 fontSize: 11,
-                color: AppColors.sidebarText,
+                color: AppColors.textSecondary,
               ),
             ),
           ),
@@ -124,7 +124,7 @@ class _NavItem extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.primary.withValues(alpha: 0.15) : Colors.transparent,
+            color: isActive ? AppColors.secondary.withValues(alpha: 0.12) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -132,7 +132,7 @@ class _NavItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 20,
-                color: isActive ? AppColors.primary : AppColors.sidebarText,
+                color: isActive ? AppColors.secondary : AppColors.textSecondary,
               ),
               const SizedBox(width: 12),
               Text(
@@ -140,7 +140,7 @@ class _NavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-                  color: isActive ? Colors.white : AppColors.sidebarText,
+                  color: isActive ? Colors.white : AppColors.textSecondary,
                 ),
               ),
               if (isActive) ...[
@@ -149,7 +149,7 @@ class _NavItem extends StatelessWidget {
                   width: 4,
                   height: 4,
                   decoration: const BoxDecoration(
-                    color: AppColors.primary,
+                    color: AppColors.secondary,
                     shape: BoxShape.circle,
                   ),
                 ),

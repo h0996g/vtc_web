@@ -14,7 +14,7 @@ class VtcAdminApp extends StatelessWidget {
       create: (_) => sl<AuthCubit>(),
       child: MaterialApp.router(
         title: 'VTC Admin',
-        theme: AppTheme.lightTheme,
+        theme: AppTheme.darkTheme,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
       ),

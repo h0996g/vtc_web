@@ -41,7 +41,7 @@ class _GiftCardListPageState extends State<GiftCardListPage> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.dark,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -144,7 +144,7 @@ class _StatCard extends StatelessWidget {
     required this.label,
     required this.value,
     required this.icon,
-    this.color = AppColors.primary,
+    this.color = AppColors.secondary,
   });
 
   final String label;
@@ -157,9 +157,9 @@ class _StatCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.accent),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -181,12 +181,12 @@ class _StatCard extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.dark,
+                  color: Colors.white,
                 ),
               ),
               Text(
                 label,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
+                style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
             ],
           ),

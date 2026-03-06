@@ -63,7 +63,7 @@ class _WalletManagementPageState extends State<WalletManagementPage> {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: AppColors.dark,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 6),
@@ -159,9 +159,9 @@ class _OperationCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.accent),
       ),
       child: Form(
         key: formKey,
@@ -187,7 +187,7 @@ class _OperationCard extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.dark,
+                        color: Colors.white,
                       ),
                     ),
                     Text(

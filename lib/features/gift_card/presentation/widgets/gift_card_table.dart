@@ -13,20 +13,20 @@ class GiftCardTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.accent),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: DataTable(
-          headingRowColor: WidgetStateProperty.all(const Color(0xFFF9FAFB)),
+          headingRowColor: WidgetStateProperty.all(AppColors.accent),
           headingTextStyle: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF6B7280),
+            color: AppColors.textSecondary,
           ),
-          dataTextStyle: const TextStyle(fontSize: 13, color: AppColors.dark),
+          dataTextStyle: const TextStyle(fontSize: 13, color: Colors.white),
           columnSpacing: 24,
           horizontalMargin: 20,
           columns: const [
@@ -45,7 +45,7 @@ class GiftCardTable extends StatelessWidget {
                     style: const TextStyle(
                       fontFamily: 'monospace',
                       fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),

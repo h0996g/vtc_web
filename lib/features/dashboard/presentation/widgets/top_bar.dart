@@ -16,8 +16,8 @@ class TopBar extends StatelessWidget {
     return Container(
       height: 64,
       decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+        color: AppColors.cardBackground,
+        border: Border(bottom: BorderSide(color: AppColors.accent)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Row(
@@ -27,7 +27,7 @@ class TopBar extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.dark,
+              color: Colors.white,
             ),
           ),
           const Spacer(),
@@ -35,7 +35,7 @@ class TopBar extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: AppColors.primaryLight,
+              color: AppColors.accent,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -43,8 +43,8 @@ class TopBar extends StatelessWidget {
               children: [
                 const CircleAvatar(
                   radius: 12,
-                  backgroundColor: AppColors.primary,
-                  child: Icon(Icons.person, size: 14, color: Colors.white),
+                  backgroundColor: AppColors.secondary,
+                  child: Icon(Icons.person, size: 14, color: AppColors.primary),
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -52,7 +52,7 @@ class TopBar extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    color: Colors.white,
                   ),
                 ),
               ],

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF3D5AFE);
-  static const Color dark = Color(0xFF1A1D2E);
-  static const Color background = Color(0xFFF5F7FF);
+  static const Color primary = Color(0xFF001624);
+  static const Color secondary = Color(0xFFFFC000);
+  static const Color background = Color(0xFF142735);
 
-  // Derived shades (not extra colors — just variants)
-  static const Color primaryLight = Color(0xFFE8ECFF);
-  static const Color sidebarText = Color(0xFF8B93B0);
-  static const Color cardBg = Colors.white;
-  static const Color error = Color(0xFFEF4444);
-  static const Color success = Color(0xFF10B981);
+  // Additional colors for enhanced design
+  static const Color accent = Color(0xFF2E4057);
+  static const Color cardBackground = Color(0xFF1A2B3D);
+  static const Color textSecondary = Color(0xFFB0BEC5);
+  static const Color success = Color(0xFF4CAF50);
+  static const Color error = Color(0xFFE53E3E);
+
+  static const BoxDecoration backgroundGradient = BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [primary, background, Color(0xFF0A1A2A)],
+    ),
+  );
 }

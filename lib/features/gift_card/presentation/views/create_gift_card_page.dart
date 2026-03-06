@@ -51,8 +51,8 @@ class _CreateGiftCardPageState extends State<CreateGiftCardPage> {
                   onPressed: () => context.pop(),
                   icon: const Icon(Icons.arrow_back_ios_new, size: 18),
                   style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    side: const BorderSide(color: Color(0xFFE5E7EB)),
+                    backgroundColor: AppColors.cardBackground,
+                    side: const BorderSide(color: AppColors.accent),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -61,7 +61,7 @@ class _CreateGiftCardPageState extends State<CreateGiftCardPage> {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.dark,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -71,9 +71,9 @@ class _CreateGiftCardPageState extends State<CreateGiftCardPage> {
               constraints: const BoxConstraints(maxWidth: 500),
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.cardBackground,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
+                border: Border.all(color: AppColors.accent),
               ),
               child: Form(
                 key: _formKey,

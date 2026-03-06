@@ -54,13 +54,19 @@ class _ProfilePageState extends State<ProfilePage> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     context.read<ProfileCubit>().updateProfile(
-          firstName: _firstNameCtrl.text.trim(),
-          lastName: _lastNameCtrl.text.trim(),
-          phoneNumber: _phoneCtrl.text.trim().isEmpty ? null : _phoneCtrl.text.trim(),
-          address: _addressCtrl.text.trim().isEmpty ? null : _addressCtrl.text.trim(),
-          wilaya: _wilayaCtrl.text.trim().isEmpty ? null : _wilayaCtrl.text.trim(),
-          commune: _communeCtrl.text.trim().isEmpty ? null : _communeCtrl.text.trim(),
-        );
+      firstName: _firstNameCtrl.text.trim(),
+      lastName: _lastNameCtrl.text.trim(),
+      phoneNumber: _phoneCtrl.text.trim().isEmpty
+          ? null
+          : _phoneCtrl.text.trim(),
+      address: _addressCtrl.text.trim().isEmpty
+          ? null
+          : _addressCtrl.text.trim(),
+      wilaya: _wilayaCtrl.text.trim().isEmpty ? null : _wilayaCtrl.text.trim(),
+      commune: _communeCtrl.text.trim().isEmpty
+          ? null
+          : _communeCtrl.text.trim(),
+    );
     setState(() => _editing = false);
   }
 
@@ -83,20 +89,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.dark,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 6),
               const Text(
                 'View and update your account information',
-                style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
               ),
               const SizedBox(height: 32),
               if (state is ProfileLoading)
                 const Center(child: CircularProgressIndicator())
               else if (state is ProfileError)
-                _ErrorCard(message: (state).message,
-                    onRetry: () => context.read<ProfileCubit>().loadProfile())
+                _ErrorCard(
+                  message: (state).message,
+                  onRetry: () => context.read<ProfileCubit>().loadProfile(),
+                )
               else
                 _buildContent(context, state),
             ],
@@ -125,9 +133,9 @@ class _ProfilePageState extends State<ProfilePage> {
           constraints: const BoxConstraints(maxWidth: 660),
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.cardBackground,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
+            border: Border.all(color: AppColors.accent),
           ),
           child: Row(
             children: [
@@ -142,21 +150,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.dark,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       admin.email,
                       style: const TextStyle(
-                          fontSize: 13, color: Color(0xFF6B7280)),
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                     const SizedBox(height: 6),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 3),
+                        horizontal: 10,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
+                        color: AppColors.secondary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -164,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
+                          color: AppColors.secondary,
                         ),
                       ),
                     ),
@@ -181,9 +193,9 @@ class _ProfilePageState extends State<ProfilePage> {
           constraints: const BoxConstraints(maxWidth: 660),
           padding: const EdgeInsets.all(32),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.cardBackground,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
+            border: Border.all(color: AppColors.accent),
           ),
           child: Form(
             key: _formKey,
@@ -198,14 +210,21 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.dark,
+                        color: Colors.white,
                       ),
                     ),
                     if (!_editing)
                       TextButton.icon(
                         onPressed: () => setState(() => _editing = true),
-                        icon: const Icon(Icons.edit_outlined, size: 16),
-                        label: const Text('Edit'),
+                        icon: const Icon(
+                          Icons.edit_outlined,
+                          size: 16,
+                          color: AppColors.secondary,
+                        ),
+                        label: const Text(
+                          'Edit',
+                          style: TextStyle(color: AppColors.secondary),
+                        ),
                       ),
                   ],
                 ),
@@ -310,12 +329,9 @@ class _Avatar extends StatelessWidget {
       height: 72,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.primary.withValues(alpha: 0.12),
+        color: AppColors.accent,
         image: photoUrl != null
-            ? DecorationImage(
-                image: NetworkImage(photoUrl!),
-                fit: BoxFit.cover,
-              )
+            ? DecorationImage(image: NetworkImage(photoUrl!), fit: BoxFit.cover)
             : null,
       ),
       child: photoUrl == null
@@ -325,7 +341,7 @@ class _Avatar extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+                  color: AppColors.secondary,
                 ),
               ),
             )
@@ -345,16 +361,21 @@ class _ErrorCard extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 660),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: AppColors.accent),
       ),
       child: Column(
         children: [
           const Icon(Icons.error_outline, color: Color(0xFFEF4444), size: 40),
           const SizedBox(height: 12),
-          Text(message,
-              style: const TextStyle(color: Color(0xFF6B7280), fontSize: 14)),
+          Text(
+            message,
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+            ),
+          ),
           const SizedBox(height: 16),
           AppButton(label: 'Retry', onPressed: onRetry),
         ],

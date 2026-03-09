@@ -46,3 +46,7 @@ class AdminRegistered extends AuthState {
   @override
   List<Object?> get props => [admin];
 }
+
+class PasswordChanged extends AuthState {
+  const PasswordChanged();
+}

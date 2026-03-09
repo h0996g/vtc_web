@@ -82,6 +82,12 @@ class SidebarNav extends StatelessWidget {
             route: RouteNames.profile,
             isActive: currentLocation == RouteNames.profile,
           ),
+          _NavItem(
+            icon: Icons.lock_outline,
+            label: 'Change Password',
+            route: RouteNames.changePassword,
+            isActive: currentLocation == RouteNames.changePassword,
+          ),
           const SizedBox(height: 8),
 
           // Bottom divider

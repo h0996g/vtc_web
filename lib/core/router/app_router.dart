@@ -12,6 +12,7 @@ import '../../features/gift_card/presentation/views/create_gift_card_page.dart';
 import '../../features/gift_card/presentation/views/gift_card_list_page.dart';
 import '../../features/profile/presentation/cubit/profile_cubit.dart';
 import '../../features/profile/presentation/views/profile_page.dart';
+import '../../features/auth/presentation/views/change_password_page.dart';
 import '../../features/wallet/presentation/views/wallet_management_page.dart';
 import '../storage/secure_storage_service.dart';
 import 'route_names.dart';
@@ -72,6 +73,10 @@ class AppRouter {
                 child: const ProfilePage(),
               ),
             ),
+          ),
+          GoRoute(
+            path: RouteNames.changePassword,
+            pageBuilder: (context, state) => const NoTransitionPage(child: ChangePasswordPage()),
           ),
         ],
       ),

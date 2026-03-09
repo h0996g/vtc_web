@@ -84,6 +84,36 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    emit(const AuthLoading());
+    try {
+      await _authRepository.changePassword(
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      emit(const PasswordChanged());
+      Fluttertoast.showToast(
+        msg: 'Password changed successfully!',
+        backgroundColor: const Color(0xFF10B981),
+        textColor: Colors.white,
+      );
+      Future.microtask(() => emit(const AuthInitial()));
+    } catch (e) {
+      final message = e.toString().replaceFirst('Exception: ', '');
+      emit(AuthError(message));
+      Fluttertoast.showToast(
+        msg: message,
+        backgroundColor: const Color(0xFFEF4444),
+        textColor: Colors.white,
+      );
+    }
+  }
+
   Future<void> logout() async {
     await AuthFunctions.logout();
     emit(const AuthUnauthenticated());

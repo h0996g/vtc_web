@@ -7,4 +7,5 @@ class RouteNames {
   static const String createAdmin = '/dashboard/admins/new';
   static const String createDriver = '/dashboard/drivers/new';
   static const String profile = '/dashboard/profile';
+  static const String changePassword = '/dashboard/change-password';
 }

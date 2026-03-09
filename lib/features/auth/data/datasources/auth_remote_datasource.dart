@@ -53,6 +53,28 @@ class AuthRemoteDataSource {
     return response.data as Map<String, dynamic>;
   }
 
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final response = await VtcDio.post(
+      path: ApiConst.changePassword,
+      data: {
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+        'confirmPassword': confirmPassword,
+      },
+    );
+    if (response.statusCode != 200) {
+      final data = response.data;
+      final message = (data is Map && data['message'] != null)
+          ? data['message'].toString()
+          : 'Failed to change password';
+      throw Exception(message);
+    }
+  }
+
   Future<Map<String, dynamic>> registerAdmin({
     required String email,
     required String password,

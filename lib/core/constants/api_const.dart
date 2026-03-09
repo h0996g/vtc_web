@@ -7,6 +7,7 @@ class ApiConst {
   static String registerAdmin = '/api/v1/auth/register-admin';
   static String registerDriver = '/api/v1/auth/register-driver';
   static String refreshToken = '/api/v1/auth/refresh';
+  static String changePassword = '/api/v1/auth/change-password';
 
   // Gift Cards
   static String giftCards = '/api/v1/giftcards';

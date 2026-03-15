@@ -2,23 +2,30 @@ class ApiConst {
   static String baseUrl = 'https://vps.halladj.org';
   // static String baseUrl = 'http://localhost:3000';
 
-  // Auth
-  static String login = '/api/v1/auth/login';
-  static String registerAdmin = '/api/v1/auth/register-admin';
-  static String registerDriver = '/api/v1/auth/register-driver';
-  static String refreshToken = '/api/v1/auth/refresh';
-  static String changePassword = '/api/v1/auth/change-password';
+  // Base paths
+  static const String apiV1 = '/api/v1';
+  static const String adminAuth = '$apiV1/admin';
+  static const String adminProfile = '$apiV1/admin';
+
+  // Admin Auth
+  static String login = '$adminAuth/login';
+  static String registerAdmin = '$apiV1/auth/register-admin';
+  static String registerDriver = '$apiV1/auth/register-driver';
+  static String refreshToken = '$adminAuth/refreshToken';
+  static String forgotPassword = '$adminAuth/forgot-password';
+  static String resetPassword = '$adminAuth/reset-password';
+  static String changePassword = '$adminAuth/change-password';
 
   // Gift Cards
-  static String giftCards = '/api/v1/giftcards';
-  static String giftCardByCode(String code) => '/api/v1/giftcards/$code';
-  static String redeemGiftCard = '/api/v1/giftcards/redeem';
+  static String giftCards = '$apiV1/giftcards';
+  static String giftCardByCode(String code) => '$apiV1/giftcards/$code';
+  static String redeemGiftCard = '$apiV1/giftcards/redeem';
 
   // Wallet
-  static String creditWallet = '/api/v1/wallet/credit';
-  static String debitWallet = '/api/v1/wallet/debit';
+  static String creditWallet = '$apiV1/wallet/credit';
+  static String debitWallet = '$apiV1/wallet/debit';
 
   // Profile
-  static String profile = '/api/v1/users/profile';
-  static String profilePhoto = '/api/v1/users/photo';
+  static String profile = '$adminProfile/profile';
+  static String profilePhoto = '$adminProfile/photo';
 }

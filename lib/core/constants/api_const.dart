@@ -19,6 +19,6 @@ class ApiConst {
   static String debitWallet = '/api/v1/wallet/debit';
 
   // Profile
-  static String profile = '/api/v1/users/profile';
-  static String profilePhoto = '/api/v1/users/photo';
+  static String profile = '/api/v1/admin/profile';
+  static String profilePhoto = '/api/v1/admin/photo';
 }

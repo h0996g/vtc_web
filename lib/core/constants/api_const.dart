@@ -3,7 +3,7 @@ class ApiConst {
   // static String baseUrl = 'http://localhost:3000';
 
   // Auth
-  static String login = '/api/v1/admin/login/login';
+  static String login = '/api/v1/admin/login';
   static String registerAdmin = '/api/v1/admin/register';
   static String registerDriver = '/api/v1/auth/register-driver';
   static String refreshToken = '/api/v1/admin/refreshToken';

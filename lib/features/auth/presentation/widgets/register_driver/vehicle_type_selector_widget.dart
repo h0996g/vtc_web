@@ -11,7 +11,7 @@ class VehicleTypeSelectorWidget extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
 
-  static const _vehicleTypes = ['CAR', 'VAN', 'TRUCK', 'MOTORCYCLE'];
+  static const _vehicleTypes = ['CAR', 'MOTORCYCLE'];
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,10 @@ class VehicleTypeSelectorWidget extends StatelessWidget {
               onTap: () => onChanged(type),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: isSelected ? AppColors.secondary : AppColors.accent,
                   borderRadius: BorderRadius.circular(8),
@@ -47,7 +50,9 @@ class VehicleTypeSelectorWidget extends StatelessWidget {
                 child: Text(
                   type,
                   style: TextStyle(
-                    color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.textSecondary,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 13,
                   ),
